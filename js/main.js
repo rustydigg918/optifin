@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (isValid) {
             // Send form data via AJAX to FormSubmit
-            fetch("https://formsubmit.co/YOUR_EMAIL_HERE", {
+            fetch("https://formsubmit.co/fb3f20343b627cd37749d3bd4acb36ba", {
                 method: "POST",
                 body: new FormData(form),
             })
@@ -154,5 +154,46 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    // Newsletter Subscription Function
+    window.subscribeNewsletter = function (event) {
+        event.preventDefault(); // Prevent page reload
+
+        const emailInput = document.getElementById("newsletter-email");
+        const messageDiv = document.getElementById("newsletter-message");
+
+        // Validate email format
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailPattern.test(emailInput.value.trim())) {
+            messageDiv.innerHTML = `<div class="alert alert-danger">❌ Please enter a valid email.</div>`;
+            return false;
+        }
+
+        // Prepare form data
+        const formData = new FormData();
+        formData.append("email", emailInput.value.trim());
+
+        // Send data to FormSubmit (or your backend)
+        fetch("https://formsubmit.co/fb3f20343b627cd37749d3bd4acb36ba", {
+            method: "POST",
+            body: formData,
+        })
+        .then(response => response.ok ? showSuccessMessage() : showErrorMessage())
+        .catch(() => showErrorMessage());
+
+        return false; // Prevent default form submission
+    };
+
+    function showSuccessMessage() {
+        document.getElementById("newsletter-message").innerHTML = 
+            `<div class="alert alert-success">✅ Subscribed successfully!</div>`;
+        document.getElementById("newsletter-form").reset();
+    }
+
+    function showErrorMessage() {
+        document.getElementById("newsletter-message").innerHTML = 
+            `<div class="alert alert-danger">❌ Subscription failed. Try again later.</div>`;
+    }
+});
 
 
