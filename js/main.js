@@ -173,20 +173,26 @@ document.addEventListener("DOMContentLoaded", function () {
         const formData = new FormData();
         formData.append("email", emailInput.value.trim());
 
-        // Send data to FormSubmit (or your backend)
+        // Send data to FormSubmit (so you receive emails)
         fetch("https://formsubmit.co/fb3f20343b627cd37749d3bd4acb36ba", {
             method: "POST",
             body: formData,
         })
-        .then(response => response.ok ? showSuccessMessage() : showErrorMessage())
+        .then(response => {
+            if (response.ok) {
+                showSuccessMessage();
+            } else {
+                showErrorMessage();
+            }
+        })
         .catch(() => showErrorMessage());
 
-        return false; // Prevent default form submission
+        return false; 
     };
 
     function showSuccessMessage() {
         document.getElementById("newsletter-message").innerHTML = 
-            `<div class="alert alert-success">✅ Subscribed successfully!</div>`;
+            `<div class="alert alert-success">✅ Subscribed successfully! Check your email.</div>`;
         document.getElementById("newsletter-form").reset();
     }
 
@@ -195,5 +201,4 @@ document.addEventListener("DOMContentLoaded", function () {
             `<div class="alert alert-danger">❌ Subscription failed. Try again later.</div>`;
     }
 });
-
 
