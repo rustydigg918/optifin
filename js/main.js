@@ -113,3 +113,35 @@
     
 })(jQuery);
 
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("callbackForm");
+
+    form.addEventListener("submit", function (event) {
+        let isValid = true;
+
+        // Get form values
+        const email = document.getElementById("mail").value.trim();
+        const mobile = document.getElementById("mobile").value.trim();
+
+        // Email validation regex
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailPattern.test(email)) {
+            alert("❌ Please enter a valid email address.");
+            isValid = false;
+        }
+
+        // Indian mobile validation regex (10 digits, starts with 6-9)
+        const mobilePattern = /^[6789]\d{9}$/;
+        if (!mobilePattern.test(mobile)) {
+            alert("❌ Please enter a valid 10-digit Indian mobile number.");
+            isValid = false;
+        }
+
+        // Prevent form submission if validation fails
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+});
+
+
